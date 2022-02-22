@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2113.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;form action="{% url 'polls:vote' question.id %}" method="post"&gt;</span></p>
+<p class="p1"><span class="s1">{% csrf_token %}</span></p>
+<p class="p1"><span class="s1">&lt;fieldset&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;legend&gt;&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;&lt;/legend&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{% if error_message %}&lt;p&gt;&lt;strong&gt;{{ error_message }}&lt;/strong&gt;&lt;/p&gt;{% endif %}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{% for choice in question.choice_set.all %}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="choice{{ forloop.counter }}"&gt;{{ choice.choice_text }}&lt;/label&gt;&lt;br&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{% endfor %}</span></p>
+<p class="p1"><span class="s1">&lt;/fieldset&gt;</span></p>
+<p class="p1"><span class="s1">&lt;input type="submit" value="Vote"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/form&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">From details</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">def detail(request, question_id):</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>try:</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>question = Question.objects.get(pk=question_id)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>except Question.DoesNotExist:</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>raise Http404("Question does not exist")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return render(request, 'polls/detail.html', {'question': question})</span></p>
+</body>
+</html>
